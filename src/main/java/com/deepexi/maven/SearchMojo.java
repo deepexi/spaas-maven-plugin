@@ -17,12 +17,8 @@ import org.apache.maven.plugins.annotations.Parameter;
 import java.util.StringJoiner;
 
 /**
- * 搜索模块
- * @title: SearchMojo
- * @package com.deepexi.maven
- * @description:
+ * 搜索模块命令
  * @author chenling
- * @date 2019/8/22 17:12
  * @since V1.0.0
  */
 @Mojo(name = "search", requiresProject = false)

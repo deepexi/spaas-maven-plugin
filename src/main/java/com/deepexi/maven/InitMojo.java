@@ -13,12 +13,9 @@ import java.io.File;
 import java.util.Properties;
 
 /**
- * 项目初始化
- * @title: InitMojo
- * @package com.deepexi.maven
- * @description:
+ * 项目初始化插件命令
+ *
  * @author chenling
- * @date 2019/8/22 14:55
  * @since V1.0.0
  */
 @Mojo(name = "init", requiresProject = false, defaultPhase = LifecyclePhase.INITIALIZE)

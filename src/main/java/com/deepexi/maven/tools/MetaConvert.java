@@ -14,12 +14,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- *
- * @title: MetaConvert
- * @package com.deepexi.maven.tools
- * @description:
+ *  xml工具类
  * @author chenling
- * @date 2019/8/23 11:55
  * @since V1.0.0
  */
 public class MetaConvert {
@@ -40,9 +36,9 @@ public class MetaConvert {
 
     /**
      * 将UserInfo对象序列化为XML字符串
-     * @param metaData
-     * @return
-     * @throws Exception
+     * @param metaData 用户对象
+     * @return xml格式字符串
+     * @throws Exception xml转换异常
      */
     public static String toXml(UserInfo metaData) throws Exception {
         StringWriter stringWriter = new StringWriter();
@@ -64,7 +60,7 @@ public class MetaConvert {
     /**
      * 解析XML数据(采用UTF-8字符集编码)
      * @param xmlBytes 待解析的XML数据
-     * @return
+     * @return 用户对象
      */
     public static UserInfo parseXml(byte[] xmlBytes) throws MojoFailureException {
         return parseXml(xmlBytes, "UTF-8");
@@ -74,7 +70,7 @@ public class MetaConvert {
      * 解析XML数据
      * @param xmlBytes 待解析的XML数据
      * @param encoding 字符集编码
-     * @return
+     * @return 用户对象
      */
     public static UserInfo parseXml(byte[] xmlBytes, String encoding) throws MojoFailureException {
 

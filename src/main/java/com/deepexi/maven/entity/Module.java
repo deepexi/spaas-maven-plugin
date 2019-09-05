@@ -3,12 +3,8 @@ package com.deepexi.maven.entity;
 import java.io.File;
 
 /**
- *
- * @title: Module
- * @package com.deepexi.maven.entity
- * @description:
+ * 模块信息
  * @author chenling
- * @date 2019/8/23 13:58
  * @since V1.0.0
  */
 public class Module {

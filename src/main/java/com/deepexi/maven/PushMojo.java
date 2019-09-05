@@ -38,12 +38,8 @@ import java.util.zip.ZipOutputStream;
 import static cn.hutool.setting.Setting.DEFAULT_CHARSET;
 
 /**
- * 推送模块
- * @title: PushMojo
- * @package com.deepexi.maven
- * @description:
+ * 推送模块命令
  * @author chenling
- * @date 2019/8/22 14:56
  * @since V1.0.0
  */
 @Mojo(name = "push", requiresProject = false)
@@ -128,9 +124,9 @@ public class PushMojo extends AbstractMojo {
 
     /**
      * 判断本地有没有配置用户信息
-     * @param settingPath
-     * @return
-     * @throws Exception
+     * @param settingPath maven的setting的路径
+     * @return 用户信息
+     * @throws Exception 用户信息转换异常
      */
     private  UserInfo judgeUser(String settingPath) throws MojoExecutionException, MojoFailureException {
 
@@ -177,11 +173,11 @@ public class PushMojo extends AbstractMojo {
 
     /**
      *  组装模块信息
-     * @param groupId
-     * @param artifactId
-     * @param version
-     * @param userInfo
-     * @return
+     * @param groupId 组织标识
+     * @param artifactId 模块名称
+     * @param version 本本号
+     * @param userInfo 用户信息
+     * @return 模块象象
      */
     private Module posttingModule(String  groupId ,String artifactId,String version,UserInfo userInfo){
         Module module = new Module();
@@ -198,8 +194,8 @@ public class PushMojo extends AbstractMojo {
 
     /**
      * 封装源码文件
-     * @param currentPath
-     * @param module
+     * @param currentPath 当前目录路径
+     * @param module 模块信息
      */
     private   void  posttingFile(String currentPath,Module module) throws MojoExecutionException {
 
@@ -245,8 +241,8 @@ public class PushMojo extends AbstractMojo {
 
     /**
      * 获取忽略文件列表
-     * @param path
-     * @return
+     * @param path 路径地址
+     * @return 需要忽略的地址集合
      */
     private  List<String>  ignoreList(String path){
         path = path+File.separator+".spaasignore";
@@ -268,8 +264,7 @@ public class PushMojo extends AbstractMojo {
 
     /**
      * 远程请求
-     * @param module
-     * @return
+     * @param module 模块对象
      */
     private void post(Module module) throws MojoExecutionException {
         Map<String, Object> map = BeanUtil.beanToMap(module);
@@ -299,11 +294,11 @@ public class PushMojo extends AbstractMojo {
 
     /**
      * 生成压缩文件 ，扩展 hutool工具包
-     * @param zip
-     * @param files
-     * @param rootDirectory
-     * @param charset
-     * @return
+     * @param zip 压缩文件
+     * @param files 需要压缩文件集合
+     * @param rootDirectory 压缩文件根目录
+     * @param charset 压缩编码
+     * @return 压缩文件
      */
     private File  zip(File zip ,List<File> files,String rootDirectory,Charset charset) throws MojoExecutionException {
         ZipOutputStream out = null;

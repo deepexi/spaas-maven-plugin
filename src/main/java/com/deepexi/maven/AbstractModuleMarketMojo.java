@@ -15,6 +15,7 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 
 /**
+ * 抽象模块市场类
  * @author huangzh
  */
 public abstract class AbstractModuleMarketMojo extends AbstractMojo {
@@ -25,8 +26,8 @@ public abstract class AbstractModuleMarketMojo extends AbstractMojo {
     /**
      * 获取用户信息
      * @param settingPath setting的存放目录
-     * @return
-     * @throws MojoExecutionException
+     * @return 用户信息
+     * @throws MojoExecutionException 转换用户信息异常
      */
     protected UserInfo getUserInfo(String settingPath) throws MojoExecutionException {
         UserInfo userInfo =  new UserInfo();
@@ -65,8 +66,8 @@ public abstract class AbstractModuleMarketMojo extends AbstractMojo {
 
     /**
      * 创建插件的临时目录
-     * @param tmpDirName
-     * @return
+     * @param tmpDirName 临时录录名
+     * @return 临时目录文件对象
      */
     protected File createPluginTmpDir(String tmpDirName) {
         File tmpDir = new File(System.getProperty("java.io.tmpdir"), tmpDirName);
@@ -78,7 +79,7 @@ public abstract class AbstractModuleMarketMojo extends AbstractMojo {
 
     /**
      * 删除临时目录的文件
-     * @param tmpDir
+     * @param tmpDir 临时目录对象
      */
     protected void cleanPluginTmpDir(File tmpDir) {
         FileUtil.del(tmpDir);

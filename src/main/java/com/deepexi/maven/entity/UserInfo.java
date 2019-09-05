@@ -5,12 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @title: UserInfo
- * @package com.deepexi.maven.entity
- * @description:
+ * 用户信息
  * @author chenling
- * @date 2019/8/23 10:52
  * @since V1.0.0
  */
 @XmlRootElement(name="user")

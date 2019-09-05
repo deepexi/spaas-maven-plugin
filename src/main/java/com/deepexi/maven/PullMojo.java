@@ -24,12 +24,8 @@ import org.dom4j.io.XMLWriter;
 import java.io.*;
 
 /**
- * 拉取模块
- * @title: PullMojo
- * @package com.deepexi.maven
- * @description:
+ * 拉取模块市场源码命令
  * @author chenling
- * @date 2019/8/22 14:56
  * @since V1.0.0
  */
 @Mojo(name = "pull", requiresProject = false)
@@ -56,8 +52,8 @@ public class PullMojo extends AbstractModuleMarketMojo {
      * 4.解压源码文件到项目spass_module目录
      * 5.增加父模块引用新模块
      *
-     * @throws MojoExecutionException
-     * @throws MojoFailureException
+     * @throws MojoExecutionException 执行异常
+     * @throws MojoFailureException 错误异常
      */
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -99,7 +95,7 @@ public class PullMojo extends AbstractModuleMarketMojo {
 
     /**
      * 拉取下来的模块统一放到spaas_module里
-     * @return
+     * @return 统一文件
      */
     private File createModuleDir(){
         File basedir = project.getBasedir();

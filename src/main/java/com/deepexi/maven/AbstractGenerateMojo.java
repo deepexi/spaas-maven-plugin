@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Properties;
 
 /**
+ * 抽象生成类
  * @author huangzh
  */
 public abstract class AbstractGenerateMojo extends AbstractMojo {
@@ -58,7 +59,7 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
      * @param artifactId 项目名
      * @param version 版本
      * @param packageName 包名
-     * @return
+     * @return 项目配置信息
      */
     protected Properties getExecutionProperties(String groupId, String artifactId, String version, String packageName) {
         Properties executionProperties = session.getUserProperties();
@@ -77,7 +78,7 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
 
     /**
      * 创建工程的maven请求对象
-     * @return
+     * @return 生成项目请求对象
      */
     protected ArchetypeGenerationRequest getProjectArchetypeGenerationRequest() {
         ArchetypeGenerationRequest request = getBaseArchetypeGenerationRequest();
@@ -89,7 +90,7 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
 
     /**
      * 创建模块的maven请求对象
-     * @return
+     * @return 生成模块请求对象
      */
     protected ArchetypeGenerationRequest getModuleArchetypeGenerationRequest() {
         ArchetypeGenerationRequest request = getBaseArchetypeGenerationRequest();
@@ -101,7 +102,7 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
 
     /**
      * 创建模块API的maven请求对象
-     * @return
+     * @return 生成基本请求对象
      */
     protected ArchetypeGenerationRequest getModuleApiArchetypeGenerationRequest() {
         ArchetypeGenerationRequest request = getBaseArchetypeGenerationRequest();
@@ -113,7 +114,7 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
 
     /**
      * 创建基本的maven请求对象
-     * @return
+     * @return 生成基本请求对象
      */
     protected ArchetypeGenerationRequest getBaseArchetypeGenerationRequest() {
         ArchetypeGenerationRequest request =
@@ -129,8 +130,8 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
     /**
      * 调用maven底层生成模块工程或模块
      * @param request 请求对象
-     * @param executionProperties
-     * @throws MojoExecutionException
+     * @param executionProperties 配置象象
+     * @throws MojoExecutionException 生成异常
      */
     protected void generateProjectOrModuleFromArchetype(ArchetypeGenerationRequest request, Properties executionProperties) throws MojoExecutionException {
         try {
@@ -145,6 +146,11 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
         }
     }
 
+    /**
+     * 获取父工程的信息
+     * @return 父工程的模块信息对象
+     * @throws MojoExecutionException 获取异常
+     */
     protected BaseModule getParentModuleInfo() throws MojoExecutionException {
         File pom = session.getRequest().getPom();
         if (pom == null) {
@@ -167,7 +173,7 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
 
     /**
      * 判断命令目录是否为父工程
-     * @return
+     * @return 是否为父工程
      */
     protected Boolean isProjectDir() {
         File pom = session.getRequest().getPom();
@@ -179,8 +185,9 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
 
     /**
      * 生成单一的模块与模块API
-     * @param executionProperties
-     * @throws MojoExecutionException
+     * @param outDir 输入目录路径
+     * @param executionProperties 配置信息对象
+     * @throws MojoExecutionException 异常
      */
     protected void generateModuleAndApi(String outDir, Properties executionProperties) throws MojoExecutionException {
         String artifactId = executionProperties.getProperty(Constants.ARTIFACT_ID);
@@ -208,8 +215,8 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
 
     /**
      * 生成工程
-     * @param executionProperties
-     * @throws MojoExecutionException
+     * @param executionProperties 配置信息对象
+     * @throws MojoExecutionException 生成异常信息
      */
     protected void generateProject(Properties executionProperties) throws MojoExecutionException {
         ArchetypeGenerationRequest request = getProjectArchetypeGenerationRequest();
@@ -219,9 +226,10 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
     /**
      * 循环生成模块与模块api
      *
+     * @param outDir  输出目录地址
      * @param moduleParam 模块参数，可以多个使用逗号分隔
-     * @param executionProperties
-     * @throws MojoExecutionException
+     * @param executionProperties 配置信息对象
+     * @throws MojoExecutionException 生成异常
      */
     protected void loopGenerateModuleAndApi(String outDir, String moduleParam, Properties executionProperties) throws MojoExecutionException {
         if (StringUtils.isNotBlank(moduleParam)) {
