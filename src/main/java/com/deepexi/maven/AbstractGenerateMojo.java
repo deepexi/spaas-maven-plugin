@@ -52,6 +52,8 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
     protected File outputDirectory;
     @Parameter( defaultValue = "${session}", readonly = true )
     private MavenSession session;
+    @Parameter( property = "archetypeRepository", defaultValue = "http://repo.maven.apache.org/maven2" )
+    private String archetypeRepository;
 
     /**
      * 设置生成的项目的坐标
@@ -122,6 +124,7 @@ public abstract class AbstractGenerateMojo extends AbstractMojo {
                         .setOutputDirectory(outputDirectory.getAbsolutePath())
                         .setLocalRepository(localRepository)
                         .setRemoteArtifactRepositories(remoteArtifactRepositories)
+                        .setArchetypeRepository(archetypeRepository)
 //                        .setProjectBuildingRequest(session.getProjectBuildingRequest())
                 ;
         return request;
