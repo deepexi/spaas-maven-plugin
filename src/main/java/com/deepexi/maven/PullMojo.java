@@ -18,6 +18,8 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import org.dom4j.Document;
+import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
@@ -63,7 +65,7 @@ public class PullMojo extends AbstractModuleMarketMojo {
         if (StringUtils.isNotBlank(name)) {
             String[] parameters = name.split(PluginConstants.PARAMETER_SEPARATOR_SYMBOL);
             artifactId = parameters[0];
-            if (parameters.length > 2) {
+            if (parameters.length >= 2) {
                 version = parameters[1];
             }
         }
@@ -124,12 +126,12 @@ public class PullMojo extends AbstractModuleMarketMojo {
         StringBuilder url = new StringBuilder(prefixUrl).append(PluginConstants.MARKET_URI_PULL_PROPERTY_KEY);
         url.append("?artifactId=").append(artifactId)
                 .append("&userName=").append(userInfo.getUserName())
-                .append("&password=******")
+                .append("&password=").append(userInfo.getPassword())
                 .append("&tenantId=").append(userInfo.getTenantId());
         if (StringUtils.isNotBlank(version)) {
             url.append("&version=").append(version);
         }
-        getLog().debug("url=" + url.toString());
+        getLog().debug("url=" + url.toString().replaceAll(userInfo.getPassword(), "******"));
         HttpResponse response = HttpRequest.get(url.toString()).execute();
         String contentType = response.header(Header.CONTENT_TYPE);
         if (contentType.startsWith("application/octet-stream")) {
@@ -164,21 +166,20 @@ public class PullMojo extends AbstractModuleMarketMojo {
         try {
             File parentPom = session.getRequest().getPom();
             SAXReader reader = new SAXReader();
-            org.dom4j.Document parentDoc = reader.read(parentPom);
-            org.dom4j.Element parentRoot = parentDoc.getRootElement();
-            org.dom4j.Element modules = parentRoot.element("modules");
-//            String parentGroupId = parentRoot.elementTextTrim("groupId");
-//            String parentArtifactId = parentRoot.elementTextTrim("artifactId");
-//            String parentVersion = parentRoot.elementTextTrim("version");
-
-            org.dom4j.Document childDoc = reader.read(pom);
-            org.dom4j.Element childRoot = childDoc.getRootElement();
+            Document parentDoc = reader.read(parentPom);
+            Element parentRoot = parentDoc.getRootElement();
+            Element modules = parentRoot.element("modules");
+            String parentGroupId = parentRoot.elementTextTrim("groupId");
+            String parentArtifactId = parentRoot.elementTextTrim("artifactId");
+            String parentVersion = parentRoot.elementTextTrim("version");
+            Document childDoc = reader.read(pom);
+            Element childRoot = childDoc.getRootElement();
             String childArtifactId = childRoot.elementTextTrim("artifactId");
-//            Element parent = childRoot.element("parent");
-//            parent.element("groupId").setText(parentGroupId);
-//            parent.element("artifactId").setText(parentArtifactId);
-//            parent.element("version").setText(parentVersion);
-//            parent.addElement("relativePath").setText("../..");
+            Element parent = childRoot.element("parent");
+            parent.element("groupId").setText(parentGroupId);
+            parent.element("artifactId").setText(parentArtifactId);
+            parent.element("version").setText(parentVersion);
+            parent.addElement("relativePath").setText("../..");
 
             if (modules == null) {
                 modules = parentRoot.addElement("modules");
@@ -190,18 +191,18 @@ public class PullMojo extends AbstractModuleMarketMojo {
                 writer.write(parentDoc);
                 writer.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new MojoExecutionException("模块文件不标准");
             }
 
-//            try (java.io.FileWriter childWriter = new java.io.FileWriter(pom)) {
-//                XMLWriter writer = new XMLWriter(childWriter);
-//                writer.write(childDoc);
-//                writer.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            try (java.io.FileWriter childWriter = new java.io.FileWriter(pom)) {
+                XMLWriter writer = new XMLWriter(childWriter);
+                writer.write(childDoc);
+                writer.close();
+            } catch (IOException e) {
+                throw new MojoExecutionException("模块文件不标准");
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new MojoExecutionException("模块文件不标准");
         }
         return Boolean.TRUE;
     }

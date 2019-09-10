@@ -39,6 +39,7 @@ import static cn.hutool.setting.Setting.DEFAULT_CHARSET;
 
 /**
  * 推送模块命令
+ * eg: mvn spaas:push
  * @author chenling
  * @since V1.0.0
  */
@@ -60,11 +61,6 @@ public class PushMojo extends AbstractModuleMarketMojo {
      */
     @Parameter( defaultValue = "${project}", readonly = true, required = true )
     private MavenProject project;
-
-
-
-    @Component
-    private Prompter prompt;
 
     /**
      * ================================》》》push 步骤《《《=====================================
@@ -133,7 +129,8 @@ public class PushMojo extends AbstractModuleMarketMojo {
         if (StringUtils.isAnyBlank(settingPath)) {
             throw new MojoExecutionException( "无法正确读取maven配置信息！" );
         }
-        UserInfo userInfo = getUserInfo(settingPath);
+        File setting = new File(settingPath);
+        UserInfo userInfo = getUserInfo(setting.getParent());
 //        String userXmlPath =  settingPath.replace("settings","user");
 //        File file = new File(userXmlPath);
 //        UserInfo userInfo =  new UserInfo();

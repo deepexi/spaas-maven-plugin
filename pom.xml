@@ -6,7 +6,7 @@
 
     <groupId>com.github.deepexi</groupId>
     <artifactId>spaas-maven-plugin</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 
 
     <!-- 打包的方式 （war、jar、maven-plugin(自定义开发的方式)）-->

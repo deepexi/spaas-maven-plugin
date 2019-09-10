@@ -21,7 +21,7 @@ public final class PluginConstants {
     /**
      * maven创建项目脚手架的version
      */
-    public static final String ARCHETYPE_VERSION_FOR_PROJECT = "1.0.1";
+    public static final String ARCHETYPE_VERSION_FOR_PROJECT = "1.0.2";
 
     /**
      * maven创建模块脚手架的groupId

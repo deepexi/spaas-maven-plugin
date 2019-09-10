@@ -15,6 +15,7 @@ import java.util.Properties;
 /**
  * 项目初始化插件命令
  * eg: mvn spaas:init -Dname=spaas-xxx-project 或 mvn spaas:init -Dname=spaas-xxx-module
+ * artifactId@version@groupId@package
  * @author chenling
  * @since V1.0.0
  */
@@ -41,8 +42,14 @@ public class InitMojo extends AbstractGenerateMojo {
         if (StringUtils.isNotBlank(name)) {
             String[] parameters = name.split(PluginConstants.PARAMETER_SEPARATOR_SYMBOL);
             artifactId = parameters[0];
-            if (parameters.length > 2) {
+            if (parameters.length >= 2) {
                 version = parameters[1];
+            }
+            if (parameters.length >= 3) {
+                groupId = parameters[2];
+            }
+            if (parameters.length >= 4) {
+                packageName = parameters[3];
             }
         }
         // 判断是否创建工程
