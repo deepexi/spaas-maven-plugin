@@ -11,11 +11,14 @@ import org.apache.maven.plugins.annotations.Parameter;
 import java.util.Properties;
 /**
  * 增加模块命令
+ * eg: mvn spaas:add -Dname=spaas-xxx-module
  * @author huangzh
  */
 @Mojo(name = "add", requiresProject = false)
 public class AddMojo extends AbstractGenerateMojo {
 
+    @Parameter(property = "name")
+    private String name;
     @Parameter(property = "artifactId", defaultValue = PluginConstants.DEFAULT_ARTIFACT_ID_FOR_MODULE)
     private String artifactId;
     @Parameter(property = "package")
@@ -23,6 +26,10 @@ public class AddMojo extends AbstractGenerateMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
+        if (StringUtils.isNotBlank(name)) {
+            String[] nameAndVersion = name.split(PluginConstants.PARAMETER_SEPARATOR_SYMBOL);
+            artifactId = nameAndVersion[0];
+        }
         BaseModule parentModuleInfo = getParentModuleInfo();
         if (parentModuleInfo == null) {
             throw new MojoExecutionException("必须在父工程目录下创建模块");

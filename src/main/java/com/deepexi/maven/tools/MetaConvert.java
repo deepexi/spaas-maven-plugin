@@ -38,9 +38,9 @@ public class MetaConvert {
      * 将UserInfo对象序列化为XML字符串
      * @param metaData 用户对象
      * @return xml格式字符串
-     * @throws Exception xml转换异常
+     * @throws JAXBException xml转换异常
      */
-    public static String toXml(UserInfo metaData) throws Exception {
+    public static String toXml(UserInfo metaData) throws JAXBException {
         StringWriter stringWriter = new StringWriter();
         lock.lock();
         getMarshaller().marshal(metaData, stringWriter);
@@ -61,6 +61,7 @@ public class MetaConvert {
      * 解析XML数据(采用UTF-8字符集编码)
      * @param xmlBytes 待解析的XML数据
      * @return 用户对象
+     * @throws MojoFailureException 解释xml异常
      */
     public static UserInfo parseXml(byte[] xmlBytes) throws MojoFailureException {
         return parseXml(xmlBytes, "UTF-8");
@@ -71,6 +72,7 @@ public class MetaConvert {
      * @param xmlBytes 待解析的XML数据
      * @param encoding 字符集编码
      * @return 用户对象
+     * @throws MojoFailureException 解释xml异常
      */
     public static UserInfo parseXml(byte[] xmlBytes, String encoding) throws MojoFailureException {
 

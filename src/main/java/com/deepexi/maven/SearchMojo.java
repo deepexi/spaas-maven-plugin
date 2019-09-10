@@ -17,13 +17,16 @@ import org.apache.maven.plugins.annotations.Parameter;
 import java.util.StringJoiner;
 
 /**
- * 搜索模块命令
+ * 搜索模块命令,支持模糊
+ * eg: mvn spaas:search -Dname=spaas
  * @author chenling
  * @since V1.0.0
  */
 @Mojo(name = "search", requiresProject = false)
 public class SearchMojo extends AbstractMojo {
 
+    @Parameter(property = "name")
+    private String name;
     @Parameter(property = "artifactId")
     private String artifactId;
 
@@ -35,6 +38,10 @@ public class SearchMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
+        if (StringUtils.isNotBlank(name)) {
+            String[] parameters = name.split(PluginConstants.PARAMETER_SEPARATOR_SYMBOL);
+            artifactId = parameters[0];
+        }
         String settingPath = session.getRequest().getUserSettingsFile().getParent();
         String url = SpaasCliPropertiesUtils.readMarketUrlProperty(settingPath);
         StringBuilder reqUrl = new StringBuilder(url);

@@ -6,6 +6,11 @@ package com.deepexi.maven.constant;
 public final class PluginConstants {
 
     /**
+     * 参数分隔符号
+     */
+    public static final String PARAMETER_SEPARATOR_SYMBOL = "@";
+
+    /**
      * maven创建项目脚手架的groupId
      */
     public static final String ARCHETYPE_GROUP_ID_FOR_PROJECT = "com.github.deepexi";

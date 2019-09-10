@@ -14,13 +14,15 @@ import java.util.Properties;
 
 /**
  * 项目初始化插件命令
- *
+ * eg: mvn spaas:init -Dname=spaas-xxx-project 或 mvn spaas:init -Dname=spaas-xxx-module
  * @author chenling
  * @since V1.0.0
  */
 @Mojo(name = "init", requiresProject = false, defaultPhase = LifecyclePhase.INITIALIZE)
 public class InitMojo extends AbstractGenerateMojo {
 
+    @Parameter(property = "name")
+    private String name;
     @Parameter(property = "groupId")
     private String groupId;
     @Parameter(property = "artifactId")
@@ -36,7 +38,13 @@ public class InitMojo extends AbstractGenerateMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-
+        if (StringUtils.isNotBlank(name)) {
+            String[] parameters = name.split(PluginConstants.PARAMETER_SEPARATOR_SYMBOL);
+            artifactId = parameters[0];
+            if (parameters.length > 2) {
+                version = parameters[1];
+            }
+        }
         // 判断是否创建工程
         if (isProjectDir()) {
             if (StringUtils.isBlank(artifactId)) {

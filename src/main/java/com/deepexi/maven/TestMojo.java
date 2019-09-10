@@ -7,6 +7,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 
 /**
  * 测试插件是否可用
+ * eg: mvn spaas:test
  * @author huangzh
  */
 @Mojo(name = "test", requiresProject = false)
